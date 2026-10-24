@@ -339,3 +339,94 @@ footer {
         align-items: flex-start;
     }
 }
+/* ---------- results, history and misc (added with model integration) ---------- */
+:root {
+    --amber: #f2c26b;
+    --red: #ff8a8a;
+}
+
+.muted { color: var(--muted); }
+
+.result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
+}
+
+.result-body {
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.result-image {
+    width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    background: var(--surface-light);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.verdict {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0 0 16px;
+}
+
+.verdict.ai { color: var(--red); }
+.verdict.real { color: var(--green); }
+.verdict.uncertain { color: var(--amber); }
+
+.meter-label { display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 8px; }
+.meter-label strong { color: var(--text); }
+
+.meter {
+    width: 100%;
+    height: 12px;
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--surface-light);
+}
+.meter::-webkit-progress-bar { background: var(--surface-light); }
+.meter::-webkit-progress-value { background: var(--accent); }
+.meter::-moz-progress-bar { background: var(--accent); }
+.meter.ai::-webkit-progress-value { background: var(--red); }
+.meter.ai::-moz-progress-bar { background: var(--red); }
+.meter.real::-webkit-progress-value { background: var(--green); }
+.meter.real::-moz-progress-bar { background: var(--green); }
+.meter.uncertain::-webkit-progress-value { background: var(--amber); }
+.meter.uncertain::-moz-progress-bar { background: var(--amber); }
+
+.signals { margin: 22px 0 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; font-size: 0.9rem; }
+.signals dt { color: var(--muted); }
+.signals dd { margin: 0; }
+
+.caveat { color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin-top: 20px; }
+.caveat a { color: var(--accent); }
+
+.privacy-note { color: var(--muted); font-size: 0.8rem; margin: 18px 0 0; }
+
+.thumb-cell { display: flex; align-items: center; gap: 12px; }
+.thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+.thumb-cell a { color: var(--text); text-decoration: none; }
+.thumb-cell a:hover { color: var(--accent); }
+
+.pill { font-size: 0.75rem; padding: 4px 10px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.pill.ai { color: var(--red); }
+.pill.real { color: var(--green); }
+.pill.uncertain { color: var(--amber); }
+
+.inline-form { margin: 0; }
+.link-button { background: none; border: 0; color: var(--muted); cursor: pointer; font: inherit; font-size: 0.85rem; padding: 0; }
+.link-button:hover { color: var(--red); }
+
+@media (max-width: 720px) {
+    .result-body { grid-template-columns: 1fr; }
+}
