@@ -1,0 +1,19 @@
+services:
+  imagecheck:
+    build:
+      context: .
+    container_name: imagecheck-lamp
+    ports:
+      - "8081:80"
+    environment:
+      IMAGECHECK_DB_NAME: imagecheck
+      IMAGECHECK_DB_USER: imagecheck_user
+      IMAGECHECK_DB_PASSWORD: "norbZck@#$!12345"
+    volumes:
+      - imagecheck_uploads:/var/www/html/uploads
+      - imagecheck_mysql:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  imagecheck_uploads:
+  imagecheck_mysql:
