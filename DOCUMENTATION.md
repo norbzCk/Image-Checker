@@ -94,10 +94,15 @@ Apache and PHP: they run the website, the upload checks and the result page.
 MySQL: it stores every upload and its verdict
 
 ## Limitations
-The model only recognises what it was trained on. A newer AI tool may produce images it has never seen, and it will confidently say “human”. Screenshots, resized images and re-saved JPEGs also weaken the traces it relies on. A real photo that is heavily edited or smoothed can be flagged as AI.
-Its percentage isn’t a true probability. “87%” means the model is fairly confident, not that it’s right 87% of the time.
-The 80% and 20% cut-offs are guesses. I picked them as sensible defaults and never tested them on real data.
-The label check only works when a label exists. Most images have none, because social media strips it and most AI tools don’t add one. A missing label proves nothing.
-The label check can be fooled in both directions. Someone can remove the label from an AI image. Someone can also add a fake “AI” label to a real photo.
-The code doesn’t check whether the label’s signature is valid. provenance.py reads the claim but doesn’t require a valid signature before it overrides the model, so a fake label would still win. This is the one I’d fix first.
-“AI-generated” can overstate what happened. The label also covers real photos partly edited with AI tools (for example generative fill), which would be reported as fully AI-generated.
+It only knows the AI tools it has been trained on. A new tool can trick it.
+Screenshots and resized pictures make it less accurate.
+A real photo that was edited a lot can be called AI by mistake.
+“87%” means the model feels sure. It doesn’t mean it is right 87 times out of 100.
+The 80% and 20% limits are just my guesses. They were never tested.
+
+Problems with the label check
+
+Most pictures have no label, and no label doesn’t mean the picture is real.
+Someone can delete the label from an AI picture, or add a fake one to a real photo.
+The code doesn’t check if the label is genuine, so a fake “AI” label would still win. This is the first thing I would fix.
+A real photo with one small AI edit would be called fully AI.
