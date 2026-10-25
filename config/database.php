@@ -5,7 +5,7 @@ function getDatabaseConnection(): mysqli
 {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    $host     = getenv('IMAGECHECK_DB_HOST') ?: 'db';
+    $host     = getenv('IMAGECHECK_DB_HOST') ?: '127.0.0.1';
     $name     = getenv('IMAGECHECK_DB_NAME') ?: 'imagecheck';
     $user     = getenv('IMAGECHECK_DB_USER') ?: 'imagecheck_user';
     $password = getenv('IMAGECHECK_DB_PASSWORD') ?: '';

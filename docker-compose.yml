@@ -1,64 +1,26 @@
 services:
-  web:
+  imagecheck:
     build:
       context: .
-      dockerfile: web/Dockerfile
+    container_name: imagecheck-lamp
     ports:
       - "8081:80"
     environment:
-      IMAGECHECK_DB_HOST: db
-      IMAGECHECK_DB_NAME: ${DB_NAME:-imagecheck}
-      IMAGECHECK_DB_USER: ${DB_USER:-imagecheck_user}
-      IMAGECHECK_DB_PASSWORD: ${DB_PASSWORD:?Run scripts/init-env.sh first}
-      INFERENCE_URL: http://inference:8000
-      INFERENCE_TOKEN: ${INFERENCE_TOKEN:?Run scripts/init-env.sh first}
-      APP_SECRET: ${APP_SECRET:?Run scripts/init-env.sh first}
+      IMAGECHECK_DB_NAME: imagecheck
+      IMAGECHECK_DB_USER: imagecheck_user
+      IMAGECHECK_DB_PASSWORD: ${DB_PASSWORD:-norbZck@#$!12345}
+      IMAGECHECK_DB_HOST: 127.0.0.1
+      INFERENCE_TOKEN: ${INFERENCE_TOKEN:-change-me}
+      INFERENCE_URL: http://127.0.0.1:8000
+      APP_SECRET: ${APP_SECRET:-change-me-change-me-change}
+      DB_NAME: imagecheck
+      DB_USER: imagecheck_user
+      DB_PASSWORD: ${DB_PASSWORD:-norbZck@#$!12345}
     volumes:
-      - uploads:/var/www/uploads
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: unless-stopped
-
-  db:
-    image: mysql:8.4
-    environment:
-      MYSQL_DATABASE: ${DB_NAME:-imagecheck}
-      MYSQL_USER: ${DB_USER:-imagecheck_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:?Run scripts/init-env.sh first}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Run scripts/init-env.sh first}
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
-      start_period: 20s
-    restart: unless-stopped
-
-  inference:
-    build:
-      context: ./inference
-    environment:
-      INFERENCE_TOKEN: ${INFERENCE_TOKEN:?Run scripts/init-env.sh first}
-      MODEL_BACKEND: ${MODEL_BACKEND:-hf}
-      MODEL_ID: ${MODEL_ID:-umm-maybe/AI-image-detector}
-      MODEL_REVISION: ${MODEL_REVISION:-}
-      AI_LABELS: ${AI_LABELS:-artificial,ai,fake,generated,ai-generated}
-    volumes:
-      - model_cache:/models
-    healthcheck:
-      # The first start downloads the model weights, so allow a long warm-up.
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-      start_period: 600s
+      - imagecheck_uploads:/var/www/uploads
+      - imagecheck_mysql:/var/lib/mysql
     restart: unless-stopped
 
 volumes:
-  uploads:
-  db_data:
-  model_cache:
+  imagecheck_uploads:
+  imagecheck_mysql:

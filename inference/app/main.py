@@ -14,7 +14,7 @@ from PIL import Image, UnidentifiedImageError
 
 from . import settings
 from .classifier import load_classifier
-from .provenance import exif_hints, read_c2pa
+from .origin import exif_hints, read_c2pa
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 log = logging.getLogger("imagecheck")
