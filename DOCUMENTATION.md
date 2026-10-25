@@ -56,6 +56,26 @@ PHP sends the file over the internal Docker network to inference:8000/analyze, w
 
 ### Step 5: is the actual classification
 
+After the detector has gathered its evidence, the classification is based on four simple rules, checked in order, and it stops at the first one that fits.
+
+Does the file have a label saying “made by AI”? If yes, the answer is AI-generated. A label is direct proof, so nothing else matters.
+If not, is the model’s AI score 80% or higher? If yes, the answer is Likely AI.
+If not, is the score 20% or lower? If yes, the answer is Likely real.
+If none of those fit, the score is between 20% and 80%. The answer is Uncertain, because the model isn’t sure either way.
+
+#### Here are a few examples:
+
+Situation	Result
+Image has an AI label (score doesn’t matter)	AI-generated
+No label, model says 92%	Likely AI
+No label, model says 6%	Likely real
+No label, model says anyhting in between 	Uncertain
+
+### Step 6: saved and shown (src/AnalysisRepository.php, templates/home.php).
+Using PHP the result is stored, probability, model name and signals into MySQL and sets the status to DONE. It then redirects to /?id=N, which shows the result, the percentage meter and the C2PA and EXIF lines. If the detector was unreachable, the status becomes FAILED and a retry button appears.
+
+
+
 ## How Hugging face is involved:
 Hugging Face is the free website where the imagecheck gets its AI model. The detector container uses a Python library called transformers, and one line in classifier.py tells it the name of the model, umm-maybe/AI-image-detector. The first time the container starts, the library goes to Hugging Face, downloads that model’s files once, and saves them in a local folder (a Docker volume). From then on, the model loads from your own machine. Every image you upload is analysed locally by that downloaded model, and your pictures are never sent to Hugging Face. The model’s name is stored in one setting (MODEL_ID in .env), so you can switch to a different detector without touching any code.
 
@@ -65,3 +85,19 @@ I realized i did not know about docker that much , there are things that were ne
 Another challenge is that the stack , there was a time i diverged i used a Lamp stack + Python FastApi, then later i came to realize i was not following a lamp stack as required, so i made a shift to pure lamp stack in one container, though there are some parts that involve another language, ie python , in the making the logic of calling an ai model because  with php it would be impossble as i researched,so there are files written in pythin , but they dont make the stack used not to be a lamp stack
 
 And generally i had to search for a lot of things cause they were new to me
+
+
+## Tech Stack used:The LAMP-Stack
+
+Linux: every Docker container runs Linux.
+Apache and PHP: they run the website, the upload checks and the result page.
+MySQL: it stores every upload and its verdict
+
+## Limitations
+The model only recognises what it was trained on. A newer AI tool may produce images it has never seen, and it will confidently say “human”. Screenshots, resized images and re-saved JPEGs also weaken the traces it relies on. A real photo that is heavily edited or smoothed can be flagged as AI.
+Its percentage isn’t a true probability. “87%” means the model is fairly confident, not that it’s right 87% of the time.
+The 80% and 20% cut-offs are guesses. I picked them as sensible defaults and never tested them on real data.
+The label check only works when a label exists. Most images have none, because social media strips it and most AI tools don’t add one. A missing label proves nothing.
+The label check can be fooled in both directions. Someone can remove the label from an AI image. Someone can also add a fake “AI” label to a real photo.
+The code doesn’t check whether the label’s signature is valid. provenance.py reads the claim but doesn’t require a valid signature before it overrides the model, so a fake label would still win. This is the one I’d fix first.
+“AI-generated” can overstate what happened. The label also covers real photos partly edited with AI tools (for example generative fill), which would be reported as fully AI-generated.
