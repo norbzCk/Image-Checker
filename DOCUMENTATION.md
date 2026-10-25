@@ -1,4 +1,5 @@
-# This is a project documentation for the ImageCheck a project that when i upload an image to it, it can detect whether it is ai-generated or taken by a camera.
+# This is a project documentation for the ImageCheck, 
+it is a project that when i upload an image to it, it can detect whether it is ai-generated or taken by a camera.
 
 ## when i was tackling this challenge of building an ImageCheck, i went through the following:
 First i wanted to understand what would make this project actually work, what thing wouold make it able to detectwhether an image is ai-genarated or taken by camera
