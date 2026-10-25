@@ -1,12 +1,10 @@
 <?php
 declare(strict_types=1);
 
-/** The inference service could not be reached, timed out, or failed. */
 final class InferenceUnavailable extends RuntimeException
 {
 }
 
-/** The inference service understood the request but refused the image. */
 final class InferenceRejected extends RuntimeException
 {
 }

@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from PIL import Image
 
 from app.main import app, decide
-from app.provenance import parse_manifest_store
+from app.origin import parse_manifest_store
 
 AUTH = {"X-Internal-Token": "test-token"}
 

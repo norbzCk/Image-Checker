@@ -12,7 +12,7 @@ from typing import Any
 
 from PIL import Image
 
-log = logging.getLogger("imagecheck.provenance")
+log = logging.getLogger("imagecheck.origin")
 
 # IPTC digitalSourceType values that mean "made (partly) by a generative/algorithmic system".
 _AI_SOURCE_TYPES = (
