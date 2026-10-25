@@ -34,7 +34,6 @@ function percent(mixed $probability): int
 <body>
 <header class="topbar">
     <a class="brand" href="/">ImageCheck<span>.</span></a>
-    <span class="status"><span class="status-dot"></span> Prototype</span>
 </header>
 
 <main class="container">

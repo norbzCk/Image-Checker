@@ -23,7 +23,7 @@ final class InferenceClient
     public static function fromEnv(): self
     {
         return new self(
-            rtrim(getenv('INFERENCE_URL') ?: 'http://inference:8000', '/'),
+            rtrim(getenv('INFERENCE_URL') ?: 'http://127.0.0.1:8000', '/'),
             getenv('INFERENCE_TOKEN') ?: '',
             (int) (getenv('INFERENCE_TIMEOUT') ?: 60),
         );
