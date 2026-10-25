@@ -58,7 +58,3 @@ API, so the results page links to Google's free web detector for manual checks.
 cd inference && pip install -r requirements-dev.txt && pytest
 ```
 
-## Limitations
-
-AI-image detectors generalise poorly to new generators and degrade with screenshots, resizing and re-compression.
-Measure the model on your own labelled images before relying on it, and always present results as estimates.
