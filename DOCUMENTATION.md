@@ -2,7 +2,7 @@
 it is a project that when i upload an image to it, it can detect whether it is ai-generated or taken by a camera.
 
 ## when i was tackling this challenge of building an ImageCheck, i went through the following:
-First i wanted to understand what would make this project actually work, what thing wouold make it able to detectwhether an image is ai-genarated or taken by camera
+First i wanted to understand what would make this project actually work, what thing would make it able to detect whether an image is ai-genarated or taken by camera
 
 According to the rules provided i was required to use a lamp stack for this project, i also heard of some thing called SynthId,but was not sure what was it and how it works
 Provided a link , i went through it and some one from google was explaining about it , so i got some grasp of it
